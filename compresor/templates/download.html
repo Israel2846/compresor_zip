@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Download {% endblock %}
+{% block content %}
+
+<!-- Segmento con nombre del apartado -->
+<a class="ui blue ribbon label"><h3>Descarga/Enviar tu archivo</h3></a>
+<p></p>
+<!-- Start maquetado de página de descarga -->
+<div class="ui two column grid">
+    <div class="column">
+        <h3>Descargar tu archivo</h3>
+        <a href="{% static 'archivos/archivos.zip' %}" class="ui  blue button">Descargar archivo ZIP</a>
+    </div>
+</div>    
+<!-- End maquetado de página de descarga -->
+
+{% endblock %}

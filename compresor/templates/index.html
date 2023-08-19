@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Index {% endblock %}
+{% block content %}
+
+<!-- Segmento con nombre del apartado -->
+<a class="ui blue ribbon label"><h3>Compresor de archivos</h3></a>
+<p></p>
+<!-- Mensaje de error si es que existe alguno -->
+{% if mensaje %}
+<label for="{{mensaje}}" style="color: red;">{{mensaje}}</label>
+{% endif %}
+<!-- Start Formulario de envío de datos -->
+<form method="post" class="ui fluid form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="two fields">
+        <div class="field">
+            <h3>Fecha inicio</h3>
+            <input type="date" name="fecha_inicio">
+        </div>
+        <div class="field">
+            <h3>Fecha fin</h3>
+            <input type="date" name="fecha_fin">
+        </div>
+    </div>
+    <p></p>
+    <button type="submit" class="ui fluid blue button">Comprimir archivo</button>
+    <p></p>
+</form>
+<!-- End Formulario de envío de datos -->
+
+
+{% endblock %}

@@ -11,10 +11,10 @@
     {% csrf_token %}
     <input type="file" name="archivos" id="archivoInput" multiple>
     <p></p>
-    <button type="submit" class="ui fluid blue button">Subir</button>
+    <div id="listaArchivos" class="ui cards"></div>
     <p></p>
+    <button type="submit" class="ui fluid blue button">Subir</button>
 </form>
-<div id="listaArchivos" class="ui cards"></div>
 
 <script src="{% static 'compresor/js/cards.js' %}"></script>
 

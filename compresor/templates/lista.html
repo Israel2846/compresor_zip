@@ -2,11 +2,12 @@
 {% load static %}
 {% block title %} Lista de archivos {% endblock %}
 {% block content %}
+<!-- Estilos CSS para las tarjetas -->
 <link rel="stylesheet" href="{% static 'compresor/css/cards.css' %}">
-
+<!-- Inicio con nombre de la págin -->
 <a class="ui blue ribbon label"><h3>Escoje tus archivos</h3></a>
 <p></p>
-
+<!-- Start Formulario de envío de datos -->
 <form method="post" enctype="multipart/form-data" class="ui fluid form">
     {% csrf_token %}
     <input type="file" name="archivos" id="archivoInput" multiple>
@@ -15,7 +16,8 @@
     <p></p>
     <button type="submit" class="ui fluid blue button">Subir</button>
 </form>
-
+<!-- End Formulario de envío de datos -->
+<!-- Scripr cards -->
 <script src="{% static 'compresor/js/cards.js' %}"></script>
 
 {% endblock %}

@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 from config.settings import BASE_DIR
 from django.core.mail import EmailMessage
+import io
 
 # Create your views here.
 def index(request):
@@ -34,3 +35,26 @@ def index(request):
         except Exception as e:
             mensaje = str(e)
     return render(request, 'index.html', {'mensaje': mensaje})
+
+
+
+def lista(request):
+    if request.method == 'POST' and request.FILES.getlist('archivos'):
+        archivos_seleccionados = request.FILES.getlist('archivos')
+        print (archivos_seleccionados)
+
+        # Crear un archivo .zip en memoria
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            for archivo in archivos_seleccionados:
+                # Agregar cada archivo al archivo .zip
+                nombre_archivo = archivo.name
+                contenido_archivo = archivo.read()
+                zipf.writestr(nombre_archivo, contenido_archivo)
+
+        # Configurar la respuesta HTTP
+        response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=archivos_comprimidos.zip'
+
+        return response
+    return render(request, 'lista.html')

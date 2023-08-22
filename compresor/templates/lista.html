@@ -1,19 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Comprimir archivos
 {% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'compresor/css/cards.css' %}">
+<!-- Segmento con nombre del apartado -->
+<a class="ui blue ribbon label"><h3>Compresor de archivos</h3></a>
+<p></p>
+<!-- Mensaje de error si es que existe alguno -->
+{% if mensaje %}
+<label for="{{mensaje}}" style="color: red;">{{mensaje}}</label>
+{% endif %}
+<!-- Start Formulario de envío de datos -->
 <form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
-    <ul>
+    <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
+    <div class="ui stackable three column grid"> 
         {% for file in files %}
-            <li>
-                <label>
-                    <input type="checkbox" name="selected_files" value="{{ file }}">
-                    {{ file }}
-                </label>
-            </li>
+        <!-- Cada tarjeta se coloca en una columna -->
+        <div class="column"> 
+            <div class="ui card">
+                <div class="content">
+                    <div class="header">{{ file }}</div>
+                    <div class="description">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="selected_files" value="{{ file }}">
+                            <label>Seleccionar</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-    <button type="submit">Comprimir archivos seleccionados</button>
+    </div>
+    <p></p>
+    <button type="submit" class="ui fluid blue button">Comprimir archivos seleccionados</button>
 </form>
+<!-- End Formulario de envío de datos -->
 {% endblock %}

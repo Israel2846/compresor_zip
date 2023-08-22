@@ -1,23 +1,19 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %} Lista de archivos {% endblock %}
+{% block title %} Comprimir archivos
+{% endblock %}
 {% block content %}
-<!-- Estilos CSS para las tarjetas -->
-<link rel="stylesheet" href="{% static 'compresor/css/cards.css' %}">
-<!-- Inicio con nombre de la págin -->
-<a class="ui blue ribbon label"><h3>Escoje tus archivos</h3></a>
-<p></p>
-<!-- Start Formulario de envío de datos -->
-<form method="post" enctype="multipart/form-data" class="ui fluid form">
+<form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
-    <input type="file" name="archivos" id="archivoInput" multiple>
-    <p></p>
-    <div id="listaArchivos" class="ui cards"></div>
-    <p></p>
-    <button type="submit" class="ui fluid blue button">Subir</button>
+    <ul>
+        {% for file in files %}
+            <li>
+                <label>
+                    <input type="checkbox" name="selected_files" value="{{ file }}">
+                    {{ file }}
+                </label>
+            </li>
+        {% endfor %}
+    </ul>
+    <button type="submit">Comprimir archivos seleccionados</button>
 </form>
-<!-- End Formulario de envío de datos -->
-<!-- Scripr cards -->
-<script src="{% static 'compresor/js/cards.js' %}"></script>
-
 {% endblock %}

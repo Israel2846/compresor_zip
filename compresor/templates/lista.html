@@ -11,7 +11,20 @@
 {% if mensaje %}
 <label for="{{mensaje}}" style="color: red;">{{mensaje}}</label>
 {% endif %}
-<!-- Start Formulario de envío de datos -->
+<!-- Start Formulario de envío de datos de RFC -->
+<form action="{% url 'list_files' %}" method="post" class="ui fluid form">
+    {% csrf_token %}
+    <div class="field">
+        <h3>Escribe tu RFC</h3>
+        <input type="text" name="rfc" placeholder="Escribe aquí tu RFC">
+        <p></p>
+        <button type="submit" class="ui fluid blue button">Buscar</button>
+    </div>
+</form>
+<p></p>
+<!-- End Formulario de envío de datos de RFC -->
+{% if files %}
+<!-- Start Formulario de envío de documentos a comprimir -->
 <form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
     <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
@@ -36,5 +49,6 @@
     <p></p>
     <button type="submit" class="ui fluid blue button">Comprimir archivos seleccionados</button>
 </form>
-<!-- End Formulario de envío de datos -->
+<!-- End Formulario de envío de documentos a comprimir -->
+{% endif %}
 {% endblock %}

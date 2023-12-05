@@ -3,6 +3,7 @@ import zipfile
 from django.http import FileResponse
 from django.shortcuts import render, HttpResponse
 
+
 def list_files(request):
     files = None
     mensaje = None
@@ -19,8 +20,9 @@ def list_files(request):
         # Si no se encuentran archivos, manda mensaje de error
         if len(files) == 0:
             mensaje = "No se encontraron facturas para este RFC"
-        
-    return render(request, 'lista.html', {'files': files, 'mensaje' : mensaje})
+    # Retorna template, y si tiene archivos los manda también
+    return render(request, 'lista.html', {'files': files, 'mensaje': mensaje})
+
 
 def compress_files(request):
     # Archivos recibidos del formulario
@@ -32,7 +34,8 @@ def compress_files(request):
         # Proceso de compresión de archivos
         with zipfile.ZipFile(zip_filename, 'w') as zipf:
             for file in selected_files:
-                file_path = os.path.join("C:/Users/siste/OneDrive/Escritorio/Excel", file)
+                file_path = os.path.join(
+                    "C:/Users/siste/OneDrive/Escritorio/Excel", file)
                 zipf.write(file_path, os.path.basename(file_path))
 
         # Respuesta de descarga de los archivos

@@ -1,60 +1,65 @@
-from django.shortcuts import render, HttpResponse
-import zipfile
-from datetime import datetime
 import os
-from config.settings import BASE_DIR
-from django.core.mail import EmailMessage
-import io
+import zipfile
+from django.http import FileResponse
+from django.shortcuts import render, HttpResponse
+from .models import *
 
-# Create your views here.
-def index(request):
+
+def list_files(request):
     mensaje = None
+    archivos = None
+    # Si el formulario manda datos por POST
     if request.POST:
-        # Intento de manejo de datos
-        try:
-            static_archivos_path = os.path.join(BASE_DIR, 'compresor', 'static', 'archivos') #Carpeta donde llegará el archivo comprimido
-            os.makedirs(static_archivos_path, exist_ok=True) #Si no existe la carpeta destino, se crea.
-            folder_to_compress = 'C:/Users/siste/OneDrive/Escritorio/Documentos/Excel' #Carpeta a comprimir.
-            zip_file_path = os.path.join(BASE_DIR, 'compresor', 'static', 'archivos', 'archivos.zip') # Direccion del archivo comprimido.
-            fecha_inicio_str = request.POST.get('fecha_inicio')
-            fecha_inicio = datetime.strptime(fecha_inicio_str, '%Y-%m-%d')
-            fecha_fin_str = request.POST.get('fecha_fin')
-            fecha_fin = datetime.strptime(fecha_fin_str, '%Y-%m-%d')
-            # Start compresión de archivos.
-            with zipfile.ZipFile(zip_file_path, 'w') as zipf:
-                for root, _, files in os.walk(folder_to_compress):
-                    for archivo in files:
-                        archivo_path = os.path.join(root, archivo)
-                        fecha_creacion = datetime.fromtimestamp(os.path.getmtime(archivo_path))
-                        print(fecha_creacion)
-                        if fecha_creacion >= fecha_inicio and fecha_creacion <= fecha_fin:
-                            zipf.write(archivo_path, os.path.relpath(archivo_path, folder_to_compress))
-            # End compresión de archivos.
-            return render(request, 'download.html')
-        # Manejo de errores en caso de haber alguno.
-        except Exception as e:
-            mensaje = str(e)
-    return render(request, 'index.html', {'mensaje': mensaje})
+        archivos = []
+        # RFC ingresado por el usuario
+        rfc = request.POST.get('rfc')
+        # Resultado de busqueda en BD
+        rutas_facturas = Facturas.objects.filter(rfc=rfc)
+        # Si rutas_facturas == 0, mandar alerta de que no existen facturas
+        if len(rutas_facturas) == 0:
+            mensaje = "No existen facturas para este RFC"
+        # Iterar sobre rutas
+        for ruta_factura in rutas_facturas:
+            # Agregar extenciones a archivos
+            ruta_pdf = ruta_factura.RutaAppFact + '.pdf'
+            ruta_xml = ruta_factura.RutaAppFact + '.xml'
+            # Solo el nombre de los archivos
+            nombre_archivo_pdf = os.path.basename(ruta_pdf)
+            nombre_archivo_xml = os.path.basename(ruta_xml)
+            # Intento para agregar archivos a lista
+            try:
+                # Si la ruta completa pertenece a un archivo agragarlo a lista
+                if os.path.isfile(ruta_pdf):
+                    archivos.append(nombre_archivo_pdf)
+                    archivos.append(nombre_archivo_xml)
+                # Si la ruta no pertenece a un archivo, mandar alerta
+                else:
+                    mensaje = f"El archivo '{nombre_archivo_pdf}' no existe en la ruta '{ruta_pdf}'"
+                # Manejo de errores
+            except OSError as e:
+                mensaje = f"No se pudieron listar los archivos en la ruta '{ruta_pdf}': {str(e)}"
+    # Retorna template, y si tiene archivos los manda también
+    return render(request, 'lista.html', {'files': archivos, 'mensaje': mensaje})
 
 
-
-def lista(request):
-    if request.method == 'POST' and request.FILES.getlist('archivos'):
-        archivos_seleccionados = request.FILES.getlist('archivos')
-        print (archivos_seleccionados)
-
-        # Crear un archivo .zip en memoria
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for archivo in archivos_seleccionados:
-                # Agregar cada archivo al archivo .zip
-                nombre_archivo = archivo.name
-                contenido_archivo = archivo.read()
-                zipf.writestr(nombre_archivo, contenido_archivo)
-
-        # Configurar la respuesta HTTP
-        response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
-        response['Content-Disposition'] = 'attachment; filename=archivos_comprimidos.zip'
-
-        return response
-    return render(request, 'lista.html')
+def compress_files(request):
+    # Archivos recibidos del formulario
+    selected_files = request.POST.getlist('selected_files')
+    # Nombre del archivo como se guardará
+    zip_filename = "compressed_files.zip"
+    # Intento de procesamiento de datos
+    try:
+        # Proceso de compresión de archivos
+        with zipfile.ZipFile(zip_filename, 'w') as zipf:
+            for file in selected_files:
+                file_path = os.path.join(
+                    r'E:\AIFA\JAI040322QI\202311\01', file)
+                zipf.write(file_path, os.path.basename(file_path))
+        # Respuesta de descarga de los archivos
+        response = FileResponse(open(zip_filename, 'rb'))
+        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+    # Manejo de errores
+    except Exception as e:
+        response = HttpResponse(f'Error!!! {str(e)}')
+    # Retornamos la respuesta
+    return response

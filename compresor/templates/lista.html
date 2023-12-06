@@ -1,23 +1,54 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Lista de archivos {% endblock %}
+{% block title %} Comprimir archivos
+{% endblock %}
 {% block content %}
-<!-- Estilos CSS para las tarjetas -->
 <link rel="stylesheet" href="{% static 'compresor/css/cards.css' %}">
-<!-- Inicio con nombre de la págin -->
-<a class="ui blue ribbon label"><h3>Escoje tus archivos</h3></a>
+<!-- Segmento con nombre del apartado -->
+<a class="ui blue ribbon label"><h3>Compresor de archivos</h3></a>
 <p></p>
-<!-- Start Formulario de envío de datos -->
-<form method="post" enctype="multipart/form-data" class="ui fluid form">
+<!-- Mensaje de error si es que existe alguno -->
+{% if mensaje %}
+<label for="{{mensaje}}" style="color: red;">{{mensaje}}</label>
+{% endif %}
+<!-- Start Formulario de envío de datos de RFC -->
+<form action="{% url 'list_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
-    <input type="file" name="archivos" id="archivoInput" multiple>
-    <p></p>
-    <div id="listaArchivos" class="ui cards"></div>
-    <p></p>
-    <button type="submit" class="ui fluid blue button">Subir</button>
+    <div class="field">
+        <h3>Escribe tu RFC</h3>
+        <input type="text" name="rfc" placeholder="Escribe aquí tu RFC" required>
+        <p></p>
+        <button type="submit" class="ui fluid blue button">Buscar</button>
+    </div>
 </form>
-<!-- End Formulario de envío de datos -->
-<!-- Scripr cards -->
-<script src="{% static 'compresor/js/cards.js' %}"></script>
-
+<p></p>
+<!-- End Formulario de envío de datos de RFC -->
+{% if files %}
+<!-- Start Formulario de envío de documentos a comprimir -->
+<form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
+    {% csrf_token %}
+    <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
+    <div class="ui stackable three column grid"> 
+        {% for file in files %}
+        <!-- Cada tarjeta se coloca en una columna -->
+        <div class="column"> 
+            <div class="ui card">
+                <div class="content">
+                    <div class="header">{{ file }}</div>
+                    <div class="description">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="selected_files" value="{{ file }}">
+                            <label>Seleccionar</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p></p>
+    <button type="submit" class="ui fluid blue button">Comprimir archivos seleccionados</button>
+</form>
+<!-- End Formulario de envío de documentos a comprimir -->
+{% endif %}
 {% endblock %}

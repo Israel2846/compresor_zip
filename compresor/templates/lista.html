@@ -5,7 +5,9 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'compresor/css/cards.css' %}">
 <!-- Segmento con nombre del apartado -->
-<a class="ui blue ribbon label"><h3>Compresor de archivos</h3></a>
+<a class="ui blue ribbon label">
+    <h3>Compresor de archivos</h3>
+</a>
 <p></p>
 <!-- Mensaje de error si es que existe alguno -->
 {% if mensaje %}
@@ -28,16 +30,29 @@
 <form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
     <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
-    <div class="ui stackable three column grid"> 
+    <div class="ui stackable three column grid">
         {% for file in files %}
         <!-- Cada tarjeta se coloca en una columna -->
-        <div class="column"> 
+        <div class="column">
             <div class="ui card">
                 <div class="content">
-                    <div class="header">{{ file }}</div>
+                    <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}</div>
                     <div class="description">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="selected_files" value="{{ file }}">
+                            <input type="checkbox" name="selected_files" value="{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}">
+                            <label>Seleccionar</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui card">
+                <div class="content">
+                    <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}</div>
+                    <div class="description">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="selected_files" value="{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}">
                             <label>Seleccionar</label>
                         </div>
                     </div>

@@ -11,3 +11,6 @@ class Facturas(models.Model):
     FechaDeTimbrado = models.CharField(_("Fecha de timbrado"), max_length=500)
     RutaProduccion = models.CharField(_("Ruta Producción"), max_length=500)
     RutaAppFact = models.CharField(_("RutaAppFact"), max_length=500)
+
+    def __str__(self) -> str:
+        return self.factura + '_' + self.serie

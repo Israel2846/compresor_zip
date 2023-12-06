@@ -14,27 +14,23 @@ def list_files(request):
         # RFC ingresado por el usuario
         rfc = request.POST.get('rfc')
         # Resultado de busqueda en BD
-        rutas_facturas = Facturas.objects.filter(rfc=rfc)
-        # Si rutas_facturas == 0, mandar alerta de que no existen facturas
-        if len(rutas_facturas) == 0:
+        facturas = Facturas.objects.filter(rfc=rfc)
+        # Si facturas == 0, mandar alerta de que no existen facturas
+        if len(facturas) == 0:
             mensaje = "No existen facturas para este RFC"
-        # Iterar sobre rutas
-        for ruta_factura in rutas_facturas:
+        # Iterar sobre facturas
+        for factura in facturas:
             # Agregar extenciones a archivos
-            ruta_pdf = ruta_factura.RutaAppFact + '.pdf'
-            ruta_xml = ruta_factura.RutaAppFact + '.xml'
-            # Solo el nombre de los archivos
-            nombre_archivo_pdf = os.path.basename(ruta_pdf)
-            nombre_archivo_xml = os.path.basename(ruta_xml)
+            ruta_pdf = factura.RutaAppFact + '.pdf'
             # Intento para agregar archivos a lista
             try:
                 # Si la ruta completa pertenece a un archivo agragarlo a lista
                 if os.path.isfile(ruta_pdf):
-                    archivos.append(nombre_archivo_pdf)
-                    archivos.append(nombre_archivo_xml)
+                    # Agregar factura a arreglo
+                    archivos.append(factura)
                 # Si la ruta no pertenece a un archivo, mandar alerta
                 else:
-                    mensaje = f"El archivo '{nombre_archivo_pdf}' no existe en la ruta '{ruta_pdf}'"
+                    mensaje = f"El archivo '{factura}' no existe en la ruta '{ruta_pdf}'"
                 # Manejo de errores
             except OSError as e:
                 mensaje = f"No se pudieron listar los archivos en la ruta '{ruta_pdf}': {str(e)}"

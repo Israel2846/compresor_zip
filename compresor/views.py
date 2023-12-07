@@ -5,6 +5,10 @@ from django.shortcuts import render, HttpResponse
 from .models import *
 
 
+def login_user(request):
+    return render(request, 'login.html')
+
+
 def list_files(request):
     mensaje = None
     archivos = None
@@ -22,6 +26,7 @@ def list_files(request):
         for factura in facturas:
             # Agregar extenciones a archivos
             ruta_pdf = factura.RutaAppFact + '.pdf'
+            ruta_xml = factura.RutaAppFact + '.xml'
             # Intento para agregar archivos a lista
             try:
                 # Si la ruta completa pertenece a un archivo agragarlo a lista
@@ -48,9 +53,8 @@ def compress_files(request):
         # Proceso de compresión de archivos
         with zipfile.ZipFile(zip_filename, 'w') as zipf:
             for file in selected_files:
-                file_path = os.path.join(
-                    os.path.dirname(file), file)
-                zipf.write(file_path, os.path.basename(file_path))
+                file_path = file
+                zipf.write(file_path, os.path.basename(file))
         # Respuesta de descarga de los archivos
         response = FileResponse(open(zip_filename, 'rb'))
         response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'

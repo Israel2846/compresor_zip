@@ -1,0 +1,32 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %} Comprimir archivos {% endblock %}
+{% block content %}
+
+<div class="ui segment container" style="width: 30%;">
+    <!-- Start nombre de página en bandera azul -->
+    <div class="ui blue ribbon label">
+        <h3>Iniciar sesión</h3>
+    </div>
+    <span></span>
+    <p></p>
+    <!-- End nombre de página en bandera azul -->
+
+    <!-- Start: Mensaje de error en caso de que exista -->
+    {% if mensaje %}
+    <label style="color: red;">{{ mensaje }}</label>
+    {% endif %}
+    <!-- End: Mensaje de error en caso de que exista -->
+
+    <!-- Start: Formulario de inicio de sesión -->
+    <form method="post" class="ui fluid form">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <button type="submit" class="ui blue button">Iniciar sesión</button>
+        <a href="{% url 'create_user' %}">¿No tienes cuenta? Crea una</a>
+    </form>
+    <!-- End: Formulario de inicio de sesión -->
+</div>
+
+{% endblock %}

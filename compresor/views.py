@@ -2,12 +2,40 @@ import os
 import zipfile
 from django.http import FileResponse
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth import login, logout, authenticate
 from .models import *
 from .forms import *
 
 
 def login_user(request):
-    return render(request, 'login.html')
+    mensaje = None
+    # Si la petición viene por POST
+    if request.POST:
+        # Credenciales desde el formulario
+        email = request.POST['email']
+        password = request.POST['password']
+        # Intento de autenticación
+        try:
+            usuario = authenticate(request, email=email, password=password)
+            # Si existe el usuario
+            if usuario is not None:
+                # Creación de variables de sesión
+                login(request, usuario)
+                # Envío a página principal
+                return redirect('list_files')
+            # Si no existe el usuario
+            else:
+                mensaje = 'Credenciales incorrectas'
+        # Manejo de errores
+        except Exception as e:
+            mensaje = str(e)
+    # Retorna la vista con el formulario
+    return render(request, 'usuarios/login.html', {'form': LoginForm, 'mensaje': mensaje})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 def create_user(request):
@@ -25,11 +53,11 @@ def create_user(request):
                 password=request.POST['password1']
             )
             # Retorna a la página de busqueda de rfc
-            return redirect('list_files')
+            return redirect('login')
         # Retorna un mensaje de que las contraseñas no coinciden
         return HttpResponse('Las contraseñas no coinciden')
     # Retorna la vista con el formulario para llenar
-    return render(request, 'create_user.html', {'formulario': UsuarioForm})
+    return render(request, 'usuarios/create_user.html', {'formulario': UsuarioForm})
 
 
 def list_files(request):
@@ -63,7 +91,7 @@ def list_files(request):
             except OSError as e:
                 mensaje = f"No se pudieron listar los archivos en la ruta '{ruta_pdf}': {str(e)}"
     # Retorna template, y si tiene archivos los manda también
-    return render(request, 'lista.html', {'files': archivos, 'mensaje': mensaje})
+    return render(request, 'facturas/lista.html', {'files': archivos, 'mensaje': mensaje})
 
 
 def compress_files(request):

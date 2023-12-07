@@ -1,0 +1,32 @@
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+</head>
+
+<body>
+    <!-- Start: Menú principal -->
+    <div class="ui menu">
+        <div class="right menu">
+            <a class="ui item" href="{% url 'logout' %}">
+                Cerrar Sesión
+            </a>
+        </div>
+    </div>
+    <!-- End: Menú principal -->
+    <div class="ui segment container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
+{% endif %}

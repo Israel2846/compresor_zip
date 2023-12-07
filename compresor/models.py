@@ -4,39 +4,43 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class UsuarioManager(BaseUserManager):
+    # Función Crear Usuario
     def create_user(self, nombres_usuario, appat_usuario, apmat_usuario, num_tel, email, password=None):
-
+        # Validación si es que no tiene email
         if not email:
             raise ValueError('El usuario debe tener un correo electrónico')
-
+        # Creación del usuario
         usuario = self.model(
             nombres_usuario=nombres_usuario,
             appat_usuario=appat_usuario,
-            apmat_usuario=apmat_usuario,            
+            apmat_usuario=apmat_usuario,
             num_tel=num_tel,
             email=self.normalize_email(email),
         )
-
+        # Se ingresa la contraseña y se guarda
         usuario.set_password(password)
         usuario.save()
-
+        # Se retorna el usuario creado
         return usuario
 
+    # Función para crear SuperUsuario
     def create_superuser(self, nombres_usuario, appat_usuario, apmat_usuario, num_tel, email, password):
-
+        # Creación de SuperUsuario
         usuario = self.create_user(
             nombres_usuario=nombres_usuario,
             appat_usuario=appat_usuario,
-            apmat_usuario=apmat_usuario,            
+            apmat_usuario=apmat_usuario,
             num_tel=num_tel,
             email=email,
             password=password,
         )
-
+        # Asignación de valor para SuperUsuario
         usuario.usuario_administrador = True
         usuario.save()
-
+        # Se retorma el SuperUsuario creado
         return usuario
+
+# Modelo Usuario
 
 
 class Usuario(AbstractBaseUser):
@@ -54,6 +58,7 @@ class Usuario(AbstractBaseUser):
     REQUIRED_FIELDS = ['nombres_usuario', 'appat_usuario',
                        'apmat_usuario', 'num_tel']
 
+    # String para Usuario
     def __str__(self):
         return f'Usuario: {self.nombres_usuario} {self.appat_usuario} {self.apmat_usuario}'
 
@@ -68,6 +73,7 @@ class Usuario(AbstractBaseUser):
         return self.usuario_administrador
 
 
+# Modelo Factura
 class Facturas(models.Model):
     almacen = models.CharField(_("Almacen"), max_length=50)
     factura = models.CharField(_("Factura"), max_length=50)
@@ -78,5 +84,6 @@ class Facturas(models.Model):
     RutaProduccion = models.CharField(_("Ruta Producción"), max_length=500)
     RutaAppFact = models.CharField(_("RutaAppFact"), max_length=500)
 
+    # String para Factura
     def __str__(self) -> str:
         return self.factura + '_' + self.serie

@@ -1,0 +1,23 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %}Crear usuario{% endblock title %}
+{% block content %}
+
+<div class="ui segment container" style="width: 30%;">
+    <!-- Start nombre de página en bandera azul -->
+    <div class="ui blue ribbon label">
+        <h3>Crear Usuario</h3>
+    </div>
+    <span></span>
+    <p></p>
+    <!-- End nombre de página en bandera azul -->
+    <form method="post" class="ui fluid form">
+        {% csrf_token %}
+        {{ formulario }}
+        <br>
+        <button type="submit" class="ui blue button">Crear usuario</button>
+        <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia sesión</a>
+    </form>
+</div>
+
+{% endblock %}

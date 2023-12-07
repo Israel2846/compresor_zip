@@ -31,3 +31,18 @@ class UsuarioForm(forms.ModelForm):
             'placeholder': 'Confirmar contraseña'
         }
     ))
+
+
+class LoginForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico'})
+        }
+
+    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={
+        'id': 'password',
+        'required': 'required',
+        'placeholder': 'Contraseña'
+    }))

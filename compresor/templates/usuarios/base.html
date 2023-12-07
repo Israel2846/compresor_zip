@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -11,17 +11,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
     <style>
         body {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -100px;
+            /* Establece la altura del cuerpo al 100% de la ventana visible */
         }
     </style>
 </head>
 
 <body>
-
-    <div class="ui segment container">
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}{% endblock %}
 </body>
 
 </html>

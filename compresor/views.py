@@ -49,7 +49,7 @@ def compress_files(request):
         with zipfile.ZipFile(zip_filename, 'w') as zipf:
             for file in selected_files:
                 file_path = os.path.join(
-                    r'E:\AIFA\JAI040322QI\202311\01', file)
+                    os.path.dirname(file), file)
                 zipf.write(file_path, os.path.basename(file_path))
         # Respuesta de descarga de los archivos
         response = FileResponse(open(zip_filename, 'rb'))

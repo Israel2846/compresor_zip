@@ -38,21 +38,30 @@
                 <div class="content">
                     <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}</div>
                     <div class="description">
+                        <div>
+                            <strong>Fecha de timbrado</strong><br>{{file.FechaDeTimbrado}}
+                        </div>
+                        <br>
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="selected_files" value="{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}">
+                            <input type="checkbox" name="selected_files" value="{{ file.RutaAppFact|add:'.pdf' }}">
                             <label>Seleccionar</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Segunda tarjeta para el XML -->
         <div class="column">
             <div class="ui card">
                 <div class="content">
                     <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}</div>
                     <div class="description">
+                        <div>
+                            <strong>Fecha de timbrado</strong><br>{{file.FechaDeTimbrado}}
+                        </div>
+                        <br>
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="selected_files" value="{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}">
+                            <input type="checkbox" name="selected_files" value="{{ file.RutaAppFact|add:'.xml' }}">
                             <label>Seleccionar</label>
                         </div>
                     </div>

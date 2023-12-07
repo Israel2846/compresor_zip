@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, nombres_usuario, appat_usuario, apmat_usuario, num_tel, email, rol=None, password=None):
+    def create_user(self, nombres_usuario, appat_usuario, apmat_usuario, num_tel, email, password=None):
 
         if not email:
             raise ValueError('El usuario debe tener un correo electrónico')
@@ -15,7 +15,6 @@ class UsuarioManager(BaseUserManager):
             apmat_usuario=apmat_usuario,            
             num_tel=num_tel,
             email=self.normalize_email(email),
-            rol=rol
         )
 
         usuario.set_password(password)
@@ -31,7 +30,6 @@ class UsuarioManager(BaseUserManager):
             apmat_usuario=apmat_usuario,            
             num_tel=num_tel,
             email=email,
-            rol=1,
             password=password,
         )
 
@@ -42,18 +40,12 @@ class UsuarioManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
-    OPCIONES_ROL = (
-        (2, 'Soporte'),
-        (3, 'Usuario'),
-    )
-
     nombres_usuario = models.CharField('Nombre(s)', max_length=200)
     appat_usuario = models.CharField('Apellido paterno', max_length=50)
     apmat_usuario = models.CharField('Apellido materno', max_length=50)
     num_tel = models.BigIntegerField('Número telefónico')
     email = models.EmailField('Correo electrónico',
                               unique=True, max_length=254)
-    rol = models.IntegerField('Rol', choices=OPCIONES_ROL)
     usuario_activo = models.BooleanField(default=True)
     usuario_administrador = models.BooleanField(default=False)
     objects = UsuarioManager()

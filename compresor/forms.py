@@ -1,11 +1,12 @@
 from django import forms
 from .models import *
 
+
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ['nombres_usuario', 'appat_usuario',
-                  'apmat_usuario', 'num_empleado', 'num_tel', 'email', 'rol',]
+                  'apmat_usuario', 'num_tel', 'email']
         widgets = {
             'nombres_usuario': forms.TextInput(attrs={'placeholder': 'Nombre'}),
             'appat_usuario': forms.TextInput(attrs={'placeholder': 'Apellido paterno'}),
@@ -13,7 +14,6 @@ class UsuarioForm(forms.ModelForm):
             'num_empleado': forms.NumberInput(attrs={'placeholder': 'Número de empleado'}),
             'num_tel': forms.NumberInput(attrs={'placeholder': 'Número de contacto'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico'}),
-            'rol': forms.Select(attrs={'class': 'ui dropdown', 'required': 'required'}),
         }
 
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput(

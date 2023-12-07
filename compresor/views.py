@@ -1,12 +1,35 @@
 import os
 import zipfile
 from django.http import FileResponse
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+from .forms import *
 
 
 def login_user(request):
     return render(request, 'login.html')
+
+
+def create_user(request):
+    # Si viene por metodo post
+    if request.POST:
+        # Si las contraseñas coinciden
+        if request.POST['password1'] == request.POST['password2']:
+            # Crear el usuario
+            Usuario.objects.create_user(
+                nombres_usuario=request.POST['nombres_usuario'],
+                appat_usuario=request.POST['appat_usuario'],
+                apmat_usuario=request.POST['apmat_usuario'],
+                num_tel=request.POST['num_tel'],
+                email=request.POST['email'],
+                password=request.POST['password1']
+            )
+            # Retorna a la página de busqueda de rfc
+            return redirect('list_files')
+        # Retorna un mensaje de que las contraseñas no coinciden
+        return HttpResponse('Las contraseñas no coinciden')
+    # Retorna la vista con el formulario para llenar
+    return render(request, 'create_user.html', {'formulario': UsuarioForm})
 
 
 def list_files(request):

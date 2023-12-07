@@ -14,7 +14,7 @@ def list_files(request):
         # RFC ingresado por el usuario
         rfc = request.POST.get('rfc')
         # Resultado de busqueda en BD
-        facturas = Facturas.objects.filter(rfc=rfc)
+        facturas = Facturas.objects.filter(rfc=rfc).order_by('factura')
         # Si facturas == 0, mandar alerta de que no existen facturas
         if len(facturas) == 0:
             mensaje = "No existen facturas para este RFC"

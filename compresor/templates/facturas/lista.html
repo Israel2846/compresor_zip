@@ -19,9 +19,18 @@
     <div class="field">
         <h3>Escribe tu RFC</h3>
         <input type="text" name="rfc" placeholder="Escribe aquí tu RFC" required>
-        <p></p>
-        <button type="submit" class="ui fluid blue button">Buscar</button>
     </div>
+    <div class="two fields">
+        <div class="field">
+            <h3>Fecha de inicio</h3>
+            <input type="date" name="fecha_inicio">
+        </div>
+        <div class="field">
+            <h3>Fecha final</h3>
+            <input type="date" name="fecha_fin">
+        </div>
+    </div>
+    <button type="submit" class="ui blue button">Buscar</button>
 </form>
 <p></p>
 <!-- End Formulario de envío de datos de RFC -->
@@ -71,7 +80,7 @@
         {% endfor %}
     </div>
     <p></p>
-    <button type="submit" class="ui fluid blue button">Comprimir archivos seleccionados</button>
+    <button type="submit" class="ui blue button">Comprimir archivos seleccionados</button>
 </form>
 <!-- End Formulario de envío de documentos a comprimir -->
 {% endif %}

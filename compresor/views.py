@@ -1,8 +1,9 @@
 import os
 import zipfile
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 
@@ -63,35 +64,28 @@ def create_user(request):
 def list_files(request):
     mensaje = None
     archivos = None
+    pagina = request.GET.get('page', 1)
     # Si el formulario manda datos por POST
     if request.POST:
-        archivos = []
         # RFC ingresado por el usuario
         rfc = request.POST.get('rfc')
         # Resultado de busqueda en BD
-        facturas = Facturas.objects.filter(rfc=rfc).order_by('factura')
+        archivos = Facturas.objects.filter(rfc=rfc).order_by('factura')
         # Si facturas == 0, mandar alerta de que no existen facturas
-        if len(facturas) == 0:
+        if len(archivos) == 0:
             mensaje = "No existen facturas para este RFC"
-        # Iterar sobre facturas
-        for factura in facturas:
-            # Agregar extenciones a archivos
-            ruta_pdf = factura.RutaAppFact + '.pdf'
-            ruta_xml = factura.RutaAppFact + '.xml'
-            # Intento para agregar archivos a lista
-            try:
-                # Si la ruta completa pertenece a un archivo agragarlo a lista
-                if os.path.isfile(ruta_pdf):
-                    # Agregar factura a arreglo
-                    archivos.append(factura)
-                # Si la ruta no pertenece a un archivo, mandar alerta
-                else:
-                    mensaje = f"El archivo '{factura}' no existe en la ruta '{ruta_pdf}'"
-                # Manejo de errores
-            except OSError as e:
-                mensaje = f"No se pudieron listar los archivos en la ruta '{ruta_pdf}': {str(e)}"
+        else:
+            # Filtrar las rutas que son archivos
+            archivos = [factura for factura in archivos if os.path.isfile(
+                factura.RutaAppFact + '.pdf')]
+        # Paginación
+        try:
+            paginator = Paginator(archivos, 6)
+            archivos = paginator.page(pagina)
+        except:
+            raise Http404
     # Retorna template, y si tiene archivos los manda también
-    return render(request, 'facturas/lista.html', {'files': archivos, 'mensaje': mensaje})
+    return render(request, 'facturas/lista.html', {'entity': archivos, 'mensaje': mensaje})
 
 
 def compress_files(request):

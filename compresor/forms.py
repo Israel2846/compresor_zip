@@ -24,7 +24,7 @@ class UsuarioForm(forms.ModelForm):
         }
     ))
 
-    password2 = forms.CharField(label='Contraseña de confirmación', widget=forms.PasswordInput(
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput(
         attrs={
             'id': 'password1',
             'required': 'required',

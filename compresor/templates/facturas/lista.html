@@ -25,13 +25,13 @@
 </form>
 <p></p>
 <!-- End Formulario de envío de datos de RFC -->
-{% if files %}
+{% if entity %}
 <!-- Start Formulario de envío de documentos a comprimir -->
 <form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
     {% csrf_token %}
     <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
     <div class="ui stackable three column grid">
-        {% for file in files %}
+        {% for file in entity %}
         <!-- Cada tarjeta se coloca en una columna -->
         <div class="column">
             <div class="ui card">

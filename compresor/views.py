@@ -1,6 +1,7 @@
 import os
 import zipfile
 from django.http import FileResponse
+from datetime import datetime
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
 from .models import *
@@ -65,8 +66,17 @@ def list_files(request):
     archivos = None
     # Si el formulario manda datos por POST
     if request.POST:
-        # RFC ingresado por el usuario
-        rfc = request.POST.get('rfc')
+        # Intento de obtener los datos del formulario
+        try:
+            # Datos ingresados por el usuario
+            rfc = request.POST['rfc']
+            fecha_inicio = datetime.strptime(
+                request.POST['fecha_inicio'], '%Y-%m-%d')
+            fecha_fin = datetime.strptime(
+                request.POST['fecha_fin'], '%Y-%m-%d')
+        # Error si algún dato no se puede recuperar del formulario
+        except KeyError as e:
+            return HttpResponse(str(e))
         # Resultado de busqueda en BD
         archivos = Facturas.objects.filter(rfc=rfc).order_by('factura')
         # Si facturas == 0, mandar alerta de que no existen facturas
@@ -75,7 +85,8 @@ def list_files(request):
         else:
             # Filtrar las rutas que son archivos
             archivos = [factura for factura in archivos if os.path.isfile(
-                factura.RutaAppFact + '.pdf')]        
+                factura.RutaAppFact + '.pdf') and (
+                    datetime.strptime(factura.FechaDeTimbrado, '%Y-%m-%dT%H:%M:%S') >= fecha_inicio and datetime.strptime(factura.FechaDeTimbrado, '%Y-%m-%dT%H:%M:%S') <= fecha_fin)]
     # Retorna template, y si tiene archivos los manda también
     return render(request, 'facturas/lista.html', {'entity': archivos, 'mensaje': mensaje})
 
@@ -94,7 +105,8 @@ def compress_files(request):
                 zipf.write(file_path, os.path.basename(file))
         # Respuesta de descarga de los archivos
         response = FileResponse(open(zip_filename, 'rb'))
-        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        response['Content-Disposition'] = f'attachment; filename="{
+            zip_filename}"'
     # Manejo de errores
     except Exception as e:
         response = HttpResponse(f'Error!!! {str(e)}')

@@ -75,14 +75,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import pymysql
+pymysql.version_info = (1, 4, 6, 'final', 0)
+pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'aifa_facturas',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',  # Puedes cambiarlo si tu MySQL está en un host diferente
-        'PORT': '3306',  # Puerto por defecto de MySQL
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,# Opcional: Si tienes un archivo de configuración personalizado
+        },
     }
 }
 

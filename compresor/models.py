@@ -74,7 +74,7 @@ class Usuario(AbstractBaseUser):
 
 
 # Modelo Factura
-class Facturas(models.Model):
+class Factura(models.Model):
     almacen = models.CharField(_("Almacen"), max_length=50)
     factura = models.CharField(_("Factura"), max_length=50)
     serie = models.CharField(_("Serie"), max_length=1)

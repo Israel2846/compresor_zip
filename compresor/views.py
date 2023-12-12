@@ -78,7 +78,7 @@ def list_files(request):
         except KeyError as e:
             return HttpResponse(str(e))
         # Resultado de busqueda en BD
-        archivos = Facturas.objects.filter(rfc=rfc).order_by('factura')
+        archivos = Factura.objects.filter(rfc=rfc).order_by('factura')
         # Si facturas == 0, mandar alerta de que no existen facturas
         if len(archivos) == 0:
             mensaje = "No existen facturas para este RFC"

@@ -36,8 +36,14 @@
 <!-- End Formulario de envío de datos de RFC -->
 {% if entity %}
 <!-- Start Formulario de envío de documentos a comprimir -->
-<form action="{% url 'compress_files' %}" method="post" class="ui fluid form">
+<form action="{% url 'compress_files' %}" method="post" class="ui fluid form" id="formularioArchivos">
     {% csrf_token %}
+    <!-- Botón para seleccionar todos -->
+    <div class="ui toggle checkbox">
+        <input type="checkbox" class="checkbox-seleccionar-todo">
+        <label>Seleccionar todos</label>
+    </div>
+    <p></p>
     <!-- Utilizamos la clase grid de Semantic UI para organizar las tarjetas en columnas -->
     <div class="ui stackable three column grid">
         {% for file in entity %}
@@ -45,7 +51,9 @@
         <div class="column">
             <div class="ui card">
                 <div class="content">
-                    <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}</div>
+                    <div class="header">
+                        {{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.pdf' }}
+                    </div>
                     <div class="description">
                         <div>
                             <strong>Fecha de timbrado</strong><br>{{file.FechaDeTimbrado}}
@@ -63,7 +71,9 @@
         <div class="column">
             <div class="ui card">
                 <div class="content">
-                    <div class="header">{{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}</div>
+                    <div class="header">
+                        {{ file.factura|stringformat:"s"|add:'_'|add:file.serie|stringformat:"s"|add:'.xml' }}
+                    </div>
                     <div class="description">
                         <div>
                             <strong>Fecha de timbrado</strong><br>{{file.FechaDeTimbrado}}
@@ -83,5 +93,22 @@
     <button type="submit" class="ui blue button">Comprimir archivos seleccionados</button>
 </form>
 <!-- End Formulario de envío de documentos a comprimir -->
+
+<!-- Start Script para seleccionar todo -->
+<script>
+    // Obtener el checkbox "Seleccionar Todo"
+    var checkboxSeleccionarTodo = document.querySelector('.checkbox-seleccionar-todo');
+
+    // Obtener todos los checkboxes del formulario
+    var checkboxes = document.querySelectorAll('#formularioArchivos input[type="checkbox"]');
+
+    // Agregar un evento de cambio al checkbox "Seleccionar Todo"
+    checkboxSeleccionarTodo.addEventListener('change', function () {
+        checkboxes.forEach(function (checkbox) {
+            // Marcar o desmarcar cada checkbox en función del estado del checkbox "Seleccionar Todo"
+            checkbox.checked = checkboxSeleccionarTodo.checked;
+        });
+    });
+</script>
 {% endif %}
 {% endblock %}

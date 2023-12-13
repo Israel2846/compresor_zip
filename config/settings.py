@@ -75,36 +75,36 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# import pymysql
-# pymysql.version_info = (1, 4, 6, 'final', 0)
-# pymysql.install_as_MySQLdb()
+import pymysql
+pymysql.version_info = (1, 4, 6, 'final', 0)
+pymysql.install_as_MySQLdb()
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'aifa_facturas',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    #     'OPTIONS': {
-    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-    #         'charset': 'utf8mb4',
-    #         'use_unicode': True,# Opcional: Si tienes un archivo de configuración personalizado
-    #     },
-    # }
-
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'cco_facturas',
-        'USER': 'sa',
-        'PASSWORD': '$ql@2023',
-        'HOST': '192.168.40.115',
-        'PORT': '1433',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aifa_facturas',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server'
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,# Opcional: Si tienes un archivo de configuración personalizado
         },
     }
+
+    # 'default': {
+    #     'ENGINE': 'mssql',
+    #     'NAME': 'cco_facturas',
+    #     'USER': 'sa',
+    #     'PASSWORD': '$ql@2023',
+    #     'HOST': '192.168.40.115',
+    #     'PORT': '1433',
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 17 for SQL Server'
+    #     },
+    # }
 }
 
 AUTH_USER_MODEL = 'compresor.Usuario'

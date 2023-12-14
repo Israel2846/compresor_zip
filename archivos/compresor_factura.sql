@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-12-2023 a las 04:52:17
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 14-12-2023 a las 03:08:20
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `compresor_facturas`
+-- Estructura de tabla para la tabla `compresor_factura`
 --
 
-CREATE TABLE `compresor_facturas` (
+CREATE TABLE `compresor_factura` (
   `id` bigint(20) NOT NULL,
   `almacen` varchar(50) NOT NULL,
   `factura` varchar(50) NOT NULL,
@@ -35,15 +35,15 @@ CREATE TABLE `compresor_facturas` (
   `rfc` varchar(14) NOT NULL,
   `UUID` longtext NOT NULL,
   `FechaDeTimbrado` varchar(500) NOT NULL,
-  `RutaProduccion` varchar(500) NOT NULL,
-  `RutaAppFact` varchar(500) NOT NULL
+  `RutaProduccion` longtext NOT NULL,
+  `RutaAppFact` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `compresor_facturas`
+-- Volcado de datos para la tabla `compresor_factura`
 --
 
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (2, 'AIFA', '1432', 'F', 'BSM961107QV7  ', '84E29AD6-F2F8-4C1E-8F04-CAD19425EE84', '2023-11-06T06:15:27', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\06\\1432_F', 'E:\\AIFA\\JAI040322QI\\202311\\06\\1432_F'),
 (3, 'AIFA', '440', 'H', 'ADM130509UQ0  ', '6A797361-B5AC-4A36-AD2C-01F1437E5AC5', '2023-11-01T00:26:19', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\440_H', 'E:\\AIFA\\JAI040322QI\\202311\\01\\440_H'),
 (4, 'AIFA', '441', 'H', 'ADM130509UQ0  ', 'E6BE4FC6-6967-4B63-9B4B-20091E57E751', '2023-11-01T00:27:37', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\441_H', 'E:\\AIFA\\JAI040322QI\\202311\\01\\441_H'),
@@ -274,7 +274,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (229, 'AIFA', '1284', 'G', 'MAB100526MV9  ', 'D7354B6B-4F7E-48B8-88BE-37AFB541F753', '2023-11-01T20:06:25', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1284_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1284_G'),
 (230, 'AIFA', '1283', 'G', 'MAB100526MV9  ', '0480C018-B2FB-4458-8EC5-B156E9CD8B29', '2023-11-01T20:03:10', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1283_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1283_G'),
 (231, 'AIFA', '1282', 'G', 'AAL940914N26  ', '0488977B-3FC4-4B08-91CD-9C2C67A5C031', '2023-11-01T19:53:39', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1282_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1282_G');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (232, 'AIFA', '1289', 'G', 'WEC961001R35  ', '4A4CD814-3467-40C6-9EDA-5FC8FD9FE171', '2023-11-01T20:31:44', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1289_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1289_G'),
 (233, 'AIFA', '1296', 'G', 'AAF920730F81  ', '73446627-924B-4111-95CA-E78A1242BA81', '2023-11-01T20:58:22', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1296_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1296_G'),
 (234, 'AIFA', '1295', 'G', 'AAF920730F81  ', '63274180-D9E8-4F93-A23C-AD6AE1398FB2', '2023-11-01T20:56:54', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\01\\1295_G', 'E:\\AIFA\\JAI040322QI\\202311\\01\\1295_G'),
@@ -505,7 +505,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (459, 'AIFA', '1375', 'I', 'ICE0808062Q1  ', '8A841C6C-9632-4104-A5DB-2470EEBD8015', '2023-11-04T16:32:54', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1375_I', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1375_I'),
 (460, 'AIFA', '1371', 'I', 'GEA990415MQ5  ', '4CD6B239-E8D8-4AB0-A79C-F4A629878B1C', '2023-11-04T16:19:13', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1371_I', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1371_I'),
 (461, 'AIFA', '1568', 'F', 'WEC961001R35  ', '8D0F3C5C-FBDB-44F2-A675-9D83172A465C', '2023-11-04T15:52:18', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1568_F', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1568_F');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (462, 'AIFA', '1569', 'F', 'WEC961001R35  ', '4CF55ED5-3A35-4CBA-A18B-0DD977CD1CA4', '2023-11-04T15:53:48', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1569_F', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1569_F'),
 (463, 'AIFA', '1570', 'F', 'WEC961001R35  ', '6F7CD577-2580-47A1-925D-210EF0DB7534', '2023-11-04T15:56:00', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1570_F', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1570_F'),
 (464, 'AIFA', '1571', 'F', 'GEA990415MQ5  ', '051E404E-9EEC-486F-9891-6FF24C02BE87', '2023-11-04T16:00:17', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\04\\1571_F', 'E:\\AIFA\\JAI040322QI\\202311\\04\\1571_F'),
@@ -736,7 +736,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (689, 'AIFA', '1750', 'K', 'DCA040909263  ', '0483ED71-EFE3-4181-90F7-8CCB604AB693', '2023-11-08T08:48:23', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\08\\1750_K', 'E:\\AIFA\\JAI040322QI\\202311\\08\\1750_K'),
 (690, 'AIFA', '1743', 'K', 'SAA940414PV3  ', '7E7C96B3-4CFE-4362-A766-4213C13805F5', '2023-11-07T15:12:52', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\07\\1743_K', 'E:\\AIFA\\JAI040322QI\\202311\\07\\1743_K'),
 (691, 'AIFA', '1744', 'K', 'AAF920730F81  ', '98DC2AF5-FF1E-4152-8CE1-D9CA5BC2B9A6', '2023-11-07T15:36:19', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\07\\1744_K', 'E:\\AIFA\\JAI040322QI\\202311\\07\\1744_K');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (692, 'AIFA', '1745', 'K', 'SDM120323C99  ', 'AF19D9B7-881F-4E62-A2FF-57DBB484C493', '2023-11-07T15:45:15', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\07\\1745_K', 'E:\\AIFA\\JAI040322QI\\202311\\07\\1745_K'),
 (693, 'AIFA', '1751', 'K', 'AAF920730F81  ', 'FEEFBC70-A8D9-4554-9B64-0E8BDBE57838', '2023-11-08T09:06:23', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\08\\1751_K', 'E:\\AIFA\\JAI040322QI\\202311\\08\\1751_K'),
 (694, 'AIFA', '1752', 'K', 'GEA990415MQ5  ', 'D30457AA-B029-4E26-BC23-D0619903B66B', '2023-11-08T09:11:39', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\08\\1752_K', 'E:\\AIFA\\JAI040322QI\\202311\\08\\1752_K'),
@@ -966,7 +966,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (918, 'AIFA', '1448', 'I', 'GEA990415MQ5  ', 'A6D6CDA9-9F6D-4E1F-8EBD-70956EF41527', '2023-11-09T11:08:23', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1448_I', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1448_I'),
 (919, 'AIFA', '1449', 'I', 'GEA990415MQ5  ', 'D12A8583-AD5A-4103-9379-18FCCFEA1D08', '2023-11-09T11:11:56', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1449_I', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1449_I'),
 (920, 'AIFA', '1446', 'I', 'GEA990415MQ5  ', '2DEB1E7E-8870-4CC9-A004-198B464BB2AC', '2023-11-09T10:40:44', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1446_I', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1446_I');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (921, 'AIFA', '1447', 'I', 'GEA990415MQ5  ', 'D145CAC3-D656-40A0-80B6-BE4CB67B949B', '2023-11-09T11:05:15', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1447_I', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1447_I'),
 (922, 'AIFA', '1453', 'I', 'GEA990415MQ5  ', 'A8150DD3-BEA0-454B-88CD-10A58ECE8AEA', '2023-11-09T11:36:17', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1453_I', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1453_I'),
 (923, 'AIFA', '1695', 'F', 'NCM001101QJ9  ', 'C49815AC-3BF0-4E61-ADC7-7AACBEE45C5D', '2023-11-09T11:37:49', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\09\\1695_F', 'E:\\AIFA\\JAI040322QI\\202311\\09\\1695_F'),
@@ -1196,7 +1196,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (1147, 'AIFA', '308', 'M', 'AMC9009136Q1  ', '38FD4BFF-D256-4CFA-BD7C-140DB76DE419', '2023-11-11T12:40:27', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\308_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\308_M'),
 (1148, 'AIFA', '310', 'M', 'AMC9009136Q1  ', 'FE073768-4625-4074-8A2E-0AC619E6415A', '2023-11-11T12:41:48', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\310_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\310_M'),
 (1149, 'AIFA', '311', 'M', 'AMC9009136Q1  ', '604C6550-A494-4949-88F6-9032ECC8D99E', '2023-11-11T12:42:54', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\311_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\311_M');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (1150, 'AIFA', '330', 'M', 'EFO150414K89  ', '2D82E125-7AAF-44CB-97F5-DC02606286C6', '2023-11-11T16:26:32', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\330_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\330_M'),
 (1151, 'AIFA', '331', 'M', 'EFO150414K89  ', '392DFDD0-1CBF-4FA8-8994-B9C73A066A25', '2023-11-11T16:28:42', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\331_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\331_M'),
 (1152, 'AIFA', '332', 'M', 'EFO150414K89  ', '99A87998-58ED-4912-812C-314BF2FD5719', '2023-11-11T16:31:03', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\11\\332_M', 'E:\\AIFA\\JAI040322QI\\202311\\11\\332_M'),
@@ -1426,7 +1426,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (1376, 'AIFA', '1885', 'K', 'MAB100526MV9  ', 'A5C5E658-637B-45EC-9E56-5F1DCFB62C20', '2023-11-14T08:19:52', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1885_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1885_K'),
 (1377, 'AIFA', '1886', 'K', 'MAB100526MV9  ', '7BB28255-E5C4-4895-8AB8-8FE84271C3D1', '2023-11-14T08:21:29', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1886_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1886_K'),
 (1378, 'AIFA', '1887', 'K', 'MAB100526MV9  ', '7AD8B994-114A-4550-977D-C276A355D4F6', '2023-11-14T08:23:18', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1887_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1887_K');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (1379, 'AIFA', '1888', 'K', 'MAB100526MV9  ', '308A794C-AB91-47F9-BC09-9226FC287931', '2023-11-14T08:24:51', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1888_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1888_K'),
 (1380, 'AIFA', '1889', 'K', 'MAB100526MV9  ', '4A189B5F-426B-4F58-9AAA-1ED6D90F041A', '2023-11-14T08:26:57', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1889_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1889_K'),
 (1381, 'AIFA', '1890', 'K', 'BAF901130MN6  ', 'E4EA0D44-758D-42C6-80E0-A5E16803EDE4', '2023-11-14T08:29:58', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\14\\1890_K', 'E:\\AIFA\\JAI040322QI\\202311\\14\\1890_K'),
@@ -1655,7 +1655,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (1604, 'AIFA', '1543', 'I', 'OOV1302208F0  ', '7F4070BA-C18F-4C47-BC51-D3C082C33DA0', '2023-11-15T16:43:13', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\15\\1543_I', 'E:\\AIFA\\JAI040322QI\\202311\\15\\1543_I'),
 (1605, 'AIFA', '1546', 'G', 'OOV1302208F0  ', '055B3A0C-BFA3-4D23-B58E-31877B16A114', '2023-11-15T16:43:08', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\15\\1546_G', 'E:\\AIFA\\JAI040322QI\\202311\\15\\1546_G'),
 (1606, 'AIFA', '1547', 'G', 'ADM130509UQ0  ', 'C7F796D1-DC22-4916-8502-E14D4B6C2520', '2023-11-15T16:45:36', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\15\\1547_G', 'E:\\AIFA\\JAI040322QI\\202311\\15\\1547_G');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (1607, 'AIFA', '1548', 'I', 'XMM151001FZ1  ', '88C051CE-3062-4F26-95D4-E0A1716FB5CA', '2023-11-16T09:39:38', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\16\\1548_I', 'E:\\AIFA\\JAI040322QI\\202311\\16\\1548_I'),
 (1608, 'AIFA', '1544', 'I', 'ICE0808062Q1  ', 'DB953EF7-DBCA-4437-838D-90F48AA7D82C', '2023-11-15T16:45:59', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\15\\1544_I', 'E:\\AIFA\\JAI040322QI\\202311\\15\\1544_I'),
 (1609, 'AIFA', '1954', 'K', 'CRE040119M54  ', '114AB56A-C31B-4811-95EE-0CFC58222FD1', '2023-11-16T09:57:36', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\16\\1954_K', 'E:\\AIFA\\JAI040322QI\\202311\\16\\1954_K'),
@@ -1885,7 +1885,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (1833, 'AIFA', '1594', 'G', 'ADM130509UQ0  ', '67C4E287-1BD1-489B-978B-D721970C7AE7', '2023-11-17T18:32:13', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\17\\1594_G', 'E:\\AIFA\\JAI040322QI\\202311\\17\\1594_G'),
 (1834, 'AIFA', '1593', 'G', 'ADM130509UQ0  ', '2C813ACD-D485-454D-B784-7CD8E2DD2FD5', '2023-11-17T18:30:14', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\17\\1593_G', 'E:\\AIFA\\JAI040322QI\\202311\\17\\1593_G'),
 (1835, 'AIFA', '1592', 'G', 'ADM130509UQ0  ', '4B6B2C78-7BC4-43FF-B63D-4C33C70B58FA', '2023-11-17T18:28:26', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\17\\1592_G', 'E:\\AIFA\\JAI040322QI\\202311\\17\\1592_G');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (1836, 'AIFA', '1591', 'G', 'ADM130509UQ0  ', '640D2B1D-97D5-46DC-B05A-88D9AD510A90', '2023-11-17T18:26:45', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\17\\1591_G', 'E:\\AIFA\\JAI040322QI\\202311\\17\\1591_G'),
 (1837, 'AIFA', '1597', 'G', 'ADM130509UQ0  ', '52239A76-6E35-4E35-B248-634791666669', '2023-11-17T18:40:12', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\17\\1597_G', 'E:\\AIFA\\JAI040322QI\\202311\\17\\1597_G'),
 (1838, 'AIFA', '501', 'L', 'AMC9009136Q1  ', '441DF9A1-7921-429D-BE1D-E78D6777D377', '2023-11-18T10:34:20', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\18\\501_L', 'E:\\AIFA\\JAI040322QI\\202311\\18\\501_L'),
@@ -2115,7 +2115,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (2062, 'AIFA', '2105', 'F', 'DCA040909263  ', '28E0334D-DB2A-45EC-9B11-AFAFAD25B886', '2023-11-22T09:16:49', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\22\\2105_F', 'E:\\AIFA\\JAI040322QI\\202311\\22\\2105_F'),
 (2063, 'AIFA', '2106', 'F', 'DCA040909263  ', '28E224DE-2F64-44B5-A05B-A417B975C98D', '2023-11-22T09:20:25', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\22\\2106_F', 'E:\\AIFA\\JAI040322QI\\202311\\22\\2106_F'),
 (2064, 'AIFA', '2107', 'F', 'GEA990415MQ5  ', '99F665E1-E605-4F85-AD23-9E25F9C3A7A2', '2023-11-22T09:32:18', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\22\\2107_F', 'E:\\AIFA\\JAI040322QI\\202311\\22\\2107_F');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (2065, 'AIFA', '2108', 'F', 'GEA990415MQ5  ', 'C85EC271-60E6-47EB-B3CA-06863D417B8C', '2023-11-22T09:37:42', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\22\\2108_F', 'E:\\AIFA\\JAI040322QI\\202311\\22\\2108_F'),
 (2066, 'AIFA', '1639', 'G', 'PME0109255P8  ', '08301AEC-2A0A-4FDB-A69D-7A09DE55CA64', '2023-11-21T16:19:09', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\21\\1639_G', 'E:\\AIFA\\JAI040322QI\\202311\\21\\1639_G'),
 (2067, 'AIFA', '1646', 'G', 'DPA060116FH3  ', 'C1ADCD1A-C41D-4930-B7CF-7D810222F308', '2023-11-21T17:52:40', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\21\\1646_G', 'E:\\AIFA\\JAI040322QI\\202311\\21\\1646_G'),
@@ -2344,7 +2344,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (2290, 'AIFA', '2008', 'K', 'NME610911L71  ', '15235AB1-F680-479E-B904-03AABEDB0A9A', '2023-11-24T12:57:22', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\24\\2008_K', 'E:\\AIFA\\JAI040322QI\\202311\\24\\2008_K'),
 (2291, 'AIFA', '1736', 'G', 'DCA040909263  ', '9D35AD52-ADF6-4C2E-9233-3F7EB71BD7DE', '2023-11-23T20:31:44', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\23\\1736_G', 'E:\\AIFA\\JAI040322QI\\202311\\23\\1736_G'),
 (2292, 'AIFA', '2230', 'F', 'ICE0808062Q1  ', '470EFEFD-136F-40FF-A70C-28077EEE462C', '2023-11-24T12:57:12', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\24\\2230_F', 'E:\\AIFA\\JAI040322QI\\202311\\24\\2230_F');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (2293, 'AIFA', '2231', 'F', 'AAF920730F81  ', 'BD27CA5F-6825-431A-8B11-3C6EDF1A4249', '2023-11-24T13:21:26', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\24\\2231_F', 'E:\\AIFA\\JAI040322QI\\202311\\24\\2231_F'),
 (2294, 'AIFA', '2232', 'F', 'BSM961107QV7  ', '48545FDA-F499-4951-973D-889160025D8C', '2023-11-24T13:24:55', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\24\\2232_F', 'E:\\AIFA\\JAI040322QI\\202311\\24\\2232_F'),
 (2295, 'AIFA', '429', 'M', 'AMC9009136Q1  ', '240E78DA-2A02-40BF-9382-379B5F9D5646', '2023-11-24T10:34:10', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\24\\429_M', 'E:\\AIFA\\JAI040322QI\\202311\\24\\429_M'),
@@ -2574,7 +2574,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (2519, 'AIFA', '2064', 'K', 'ICE0808062Q1  ', '56AC11D7-EE04-4A5E-817C-68F928470F15', '2023-11-27T16:12:19', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\2064_K', 'E:\\AIFA\\JAI040322QI\\202311\\27\\2064_K'),
 (2520, 'AIFA', '2067', 'K', 'KME850218KA9  ', 'A982C52D-1DD8-46B8-91A4-CC3F78642B95', '2023-11-27T17:43:49', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\2067_K', 'E:\\AIFA\\JAI040322QI\\202311\\27\\2067_K'),
 (2521, 'AIFA', '2066', 'K', 'RCA1606221V5  ', '49C63746-1053-4C8A-B573-330D7AF42A49', '2023-11-27T17:07:19', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\2066_K', 'E:\\AIFA\\JAI040322QI\\202311\\27\\2066_K');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (2522, 'AIFA', '456', 'J', 'VME640813HF6  ', '71DC3B4B-627C-43AC-AEEC-37A229FEF5CA', '2023-11-27T16:38:20', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\456_J', 'E:\\AIFA\\JAI040322QI\\202311\\27\\456_J'),
 (2523, 'AIFA', '459', 'J', 'SME890901KH0  ', 'ADFACF2C-336F-4507-A169-66AD17D624C3', '2023-11-27T17:04:16', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\459_J', 'E:\\AIFA\\JAI040322QI\\202311\\27\\459_J'),
 (2524, 'AIFA', '457', 'J', 'VME640813HF6  ', 'FB524D4C-90F2-48F0-B52E-0F94CB151DDB', '2023-11-27T16:39:37', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202311\\27\\457_J', 'E:\\AIFA\\JAI040322QI\\202311\\27\\457_J'),
@@ -2804,7 +2804,7 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 (2748, 'AIFA', '1588', 'I', 'ACM980616RZ1  ', '01E5E602-D600-492D-830B-E5C1286782F4', '2023-12-04T09:46:23', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\1588_I', 'E:\\AIFA\\JAI040322QI\\202312\\04\\1588_I'),
 (2749, 'AIFA', '483', 'J', 'GDM6912308M1  ', '41776D36-AD4F-4E3B-9F39-C325CAB32D16', '2023-12-04T13:56:10', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\483_J', 'E:\\AIFA\\JAI040322QI\\202312\\04\\483_J'),
 (2750, 'AIFA', '482', 'J', 'GDM6912308M1  ', '8FC808DC-8777-46E9-823D-92EC2BED1F29', '2023-12-04T13:54:26', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\482_J', 'E:\\AIFA\\JAI040322QI\\202312\\04\\482_J');
-INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
+INSERT INTO `compresor_factura` (`id`, `almacen`, `factura`, `serie`, `rfc`, `UUID`, `FechaDeTimbrado`, `RutaProduccion`, `RutaAppFact`) VALUES
 (2751, 'AIFA', '2126', 'K', 'GEA990415MQ5  ', '1E4C9A4A-E748-4946-A49C-BA0BAC9CF22A', '2023-12-04T12:11:29', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\2126_K', 'E:\\AIFA\\JAI040322QI\\202312\\04\\2126_K'),
 (2752, 'AIFA', '2128', 'K', 'GEA990415MQ5  ', '808FF60B-3A36-4040-96A5-3D507F69B462', '2023-12-04T12:21:27', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\2128_K', 'E:\\AIFA\\JAI040322QI\\202312\\04\\2128_K'),
 (2753, 'AIFA', '2127', 'K', 'GEA990415MQ5  ', '6024D76B-9FC1-4806-9BF4-2AFF5C564AD8', '2023-12-04T12:15:17', 'F:\\SCAF-AIFA\\Documentacion\\JAI040322QI\\202312\\04\\2127_K', 'E:\\AIFA\\JAI040322QI\\202312\\04\\2127_K'),
@@ -2916,9 +2916,9 @@ INSERT INTO `compresor_facturas` (`id`, `almacen`, `factura`, `serie`, `rfc`, `U
 --
 
 --
--- Indices de la tabla `compresor_facturas`
+-- Indices de la tabla `compresor_factura`
 --
-ALTER TABLE `compresor_facturas`
+ALTER TABLE `compresor_factura`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2926,9 +2926,9 @@ ALTER TABLE `compresor_facturas`
 --
 
 --
--- AUTO_INCREMENT de la tabla `compresor_facturas`
+-- AUTO_INCREMENT de la tabla `compresor_factura`
 --
-ALTER TABLE `compresor_facturas`
+ALTER TABLE `compresor_factura`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2856;
 COMMIT;
 

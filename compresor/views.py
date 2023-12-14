@@ -6,6 +6,9 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
 from .models import *
 from .forms import *
+import mysql.connector
+from django.http import JsonResponse
+import json
 
 
 def login_user(request):
@@ -112,3 +115,38 @@ def compress_files(request):
         response = HttpResponse(f'Error!!! {str(e)}')
     # Retornamos la respuesta
     return response
+
+
+def get_data_production(request):
+    # Configuración de la conexión a la base de datos
+    config = {
+        'user': 'root',
+        'password': '',
+        'host': 'localhost',
+        'database': 'produccion',
+        'raise_on_warnings': True,
+    }
+    # Intentar establecer la conexión
+    try:
+        conn = mysql.connector.connect(**config)
+        # Crear un cursor para ejecutar consultas SQL
+        cursor = conn.cursor()
+        # Llamada al Stored Procedure
+        cursor.callproc('nombre_del_procedimiento', args=())
+        # Obtener resultados del Stored Procedure
+        for result in cursor.stored_results():
+            resultados = result.fetchall()
+        # Serializa los resultados a formato JSON
+        serialized_data = json.dumps(resultados, default=str)
+        # Usa JsonResponse para devolver la respuesta directamente como JSON
+        return JsonResponse(json.loads(serialized_data), safe=False)
+    # Manejo de errores
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    # Finalización
+    finally:
+        # Asegurarse de cerrar la conexión al final
+        if 'conn' in locals() and conn.is_connected():
+            cursor.close()
+            conn.close()
+            print("Conexión cerrada.")

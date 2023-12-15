@@ -1,4 +1,5 @@
 import os
+import shutil
 import zipfile
 from django.http import FileResponse
 from datetime import datetime
@@ -115,53 +116,6 @@ def compress_files(request):
     return response
 
 
-# def get_data_production(request):
-    # # Configuración de la conexión a la base de datos
-    # config = {
-    #     'user': 'root',
-    #     'password': '',
-    #     'host': 'localhost',
-    #     'database': 'produccion',
-    #     'raise_on_warnings': True,
-    # }
-    # # Intentar establecer la conexión
-    # try:
-    #     conn = mysql.connector.connect(**config)
-    #     # Crear un cursor para ejecutar consultas SQL
-    #     cursor = conn.cursor()
-    #     # Llamada al Stored Procedure
-    #     cursor.callproc("get_data", [3])
-    #     # Obtener resultados del SP
-    #     results = cursor.stored_results()
-    #     # Recorrido de resultados
-    #     for row in results:
-    #         for item in row.fetchall():
-    #             # Creación de objeto Factura para cada uno de los registros
-    #             factura = Factura(
-    #                 almacen=item[1],
-    #                 factura=item[2],
-    #                 serie=item[3],
-    #                 rfc=item[4],
-    #                 UUID=item[5],
-    #                 fecha_timbrado=item[6],
-    #                 ruta_produccion=item[7],
-    #                 ruta_app_fact=item[8],
-    #             )
-    #             # Guardado de objeto factura
-    #             factura.save()
-    #         return HttpResponse(status=200)
-    # # Manejo de errores
-    # except mysql.connector.Error as err:
-    #     print(f"Error: {err}")
-    # # Finalización
-    # finally:
-    #     # Asegurarse de cerrar la conexión al final
-    #     if 'conn' in locals() and conn.is_connected():
-    #         cursor.close()
-    #         conn.close()
-    #         print("Conexión cerrada.")
-    # Configuración de la conexión a la base de datos SQL Server
-
 def get_data_production(request):
     # Configuración de la conexión a la base de datos SQL Server
     conn_str = (
@@ -171,13 +125,12 @@ def get_data_production(request):
         'UID=sa;'
         'PWD=$ql@2023;'
     )
-
+    # Intento de conexión con la base de datos
     try:
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
-
         # Aquí puedes ejecutar tus consultas SQL, por ejemplo:
-        cursor.execute("EXEC get_data @id_p=?", 3)
+        cursor.execute("EXEC get_data @id_p=?", 7)
         results = cursor.fetchall()
         for item in results:
             # Creación de objeto Factura para cada uno de los registros
@@ -191,17 +144,50 @@ def get_data_production(request):
                 ruta_produccion=item[7],
                 ruta_app_fact=item[8],
             )
-
+            # Copiado y pegado de archivos
+            copy_paste(factura.ruta_produccion, factura.ruta_app_fact)
             # Guardado de objeto factura
             factura.save()
             return HttpResponse(status=200)
-
+        # Manejo de errores de conexón
     except pyodbc.Error as err:
-        print(f"Error de conexión: {err}")
-        return HttpResponse(status=500)
-
+        return HttpResponse(err)
+    # Manejo de errores normales
+    except Exception as e:
+        print(f'Error!!! {e}')
+        return HttpResponse(str(e))
+    # Cierre de conexión con la base de datos
     finally:
         if 'conn' in locals() and conn:
             cursor.close()
             conn.close()
             print("Conexión cerrada.")
+
+
+def copy_paste(ruta_produccion, ruta_app_fact):
+    # Agregar .pdf y .xml a las rutas de producción
+    ruta_pdf = ruta_produccion + '.pdf'
+    ruta_xml = ruta_produccion + '.xml'
+
+    # Quitar el último nivel del directorio de ruta_app_fact
+    ruta_app_fact_sin_ultimo_nivel = os.path.dirname(ruta_app_fact)
+
+    # Crear la ruta_app_fact si no existe
+    if not os.path.exists(ruta_app_fact_sin_ultimo_nivel):
+        os.makedirs(ruta_app_fact_sin_ultimo_nivel)
+        print(f"Creando directorio {ruta_app_fact_sin_ultimo_nivel}")
+
+    # Verificar si existen las rutas y copiar
+    if os.path.isfile(ruta_pdf):
+        # Copiar el archivo a la ruta_destino_pdf
+        ruta_destino_pdf = os.path.join(
+            ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.pdf')
+        shutil.copy(ruta_pdf, ruta_destino_pdf)
+        print(f"Copiando {ruta_pdf} a {ruta_destino_pdf}")
+
+    if os.path.isfile(ruta_xml):
+        # Copiar el archivo a la ruta_destino_xml
+        ruta_destino_xml = os.path.join(
+            ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.xml')
+        shutil.copy(ruta_xml, ruta_destino_xml)
+        print(f"Copiando {ruta_xml} a {ruta_destino_xml}")

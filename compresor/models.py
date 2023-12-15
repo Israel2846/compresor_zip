@@ -80,9 +80,9 @@ class Factura(models.Model):
     serie = models.CharField(_("Serie"), max_length=1)
     rfc = models.CharField(_("RFC"), max_length=14)
     UUID = models.TextField(_("UUID"))
-    FechaDeTimbrado = models.CharField(_("Fecha de timbrado"), max_length=500)
-    RutaProduccion = models.TextField(_("Ruta producción"))
-    RutaAppFact = models.TextField(_("Ruta app"))
+    fecha_timbrado = models.CharField(_("Fecha de timbrado"), max_length=500)
+    ruta_produccion = models.TextField(_("Ruta producción"))
+    ruta_app_fact = models.TextField(_("Ruta app"))
 
     # String para Factura
     def __str__(self) -> str:

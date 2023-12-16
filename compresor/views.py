@@ -79,16 +79,21 @@ def list_files(request):
         # Error si algún dato no se puede recuperar del formulario
         except KeyError as e:
             return HttpResponse(str(e))
-        # Resultado de busqueda en BD
-        archivos = Factura.objects.filter(rfc=rfc).order_by('factura')
-        # Si facturas == 0, mandar alerta de que no existen facturas
-        if len(archivos) == 0:
-            mensaje = "No existen facturas para este RFC"
-        else:
-            # Filtrar las rutas que son archivos
-            archivos = [factura for factura in archivos if os.path.isfile(
-                factura.ruta_app_fact + '.pdf') and (
-                    datetime.strptime(factura.fecha_timbrado, '%Y-%m-%dT%H:%M:%S') >= fecha_inicio and datetime.strptime(factura.fecha_timbrado, '%Y-%m-%dT%H:%M:%S') <= fecha_fin)]
+        # Intento de filtrado de facturas
+        try:
+            # Resultado de busqueda en BD
+            archivos = Factura.objects.filter(rfc=rfc).order_by('factura')
+            # Si facturas == 0, mandar alerta de que no existen facturas
+            if len(archivos) == 0:
+                mensaje = "No existen facturas para este RFC"
+            else:
+                # Filtrar las rutas que son archivos
+                archivos = [factura for factura in archivos if os.path.isfile(
+                    factura.ruta_app_fact + '.pdf') and (
+                        datetime.strptime(factura.fecha_timbrado, '%Y-%m-%dT%H:%M:%S') >= fecha_inicio and datetime.strptime(factura.fecha_timbrado, '%Y-%m-%dT%H:%M:%S') <= fecha_fin)]
+        # Manejo de errores de filtrado
+        except Exception as e:
+            mensaje = str(e)
     # Retorna template, y si tiene archivos los manda también
     return render(request, 'facturas/lista.html', {'entity': archivos, 'mensaje': mensaje})
 
@@ -168,26 +173,27 @@ def copy_paste(ruta_produccion, ruta_app_fact):
     # Agregar .pdf y .xml a las rutas de producción
     ruta_pdf = ruta_produccion + '.pdf'
     ruta_xml = ruta_produccion + '.xml'
-
     # Quitar el último nivel del directorio de ruta_app_fact
     ruta_app_fact_sin_ultimo_nivel = os.path.dirname(ruta_app_fact)
-
-    # Crear la ruta_app_fact si no existe
-    if not os.path.exists(ruta_app_fact_sin_ultimo_nivel):
-        os.makedirs(ruta_app_fact_sin_ultimo_nivel)
-        print(f"Creando directorio {ruta_app_fact_sin_ultimo_nivel}")
-
-    # Verificar si existen las rutas y copiar
-    if os.path.isfile(ruta_pdf):
-        # Copiar el archivo a la ruta_destino_pdf
-        ruta_destino_pdf = os.path.join(
-            ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.pdf')
-        shutil.copy(ruta_pdf, ruta_destino_pdf)
-        print(f"Copiando {ruta_pdf} a {ruta_destino_pdf}")
-
-    if os.path.isfile(ruta_xml):
-        # Copiar el archivo a la ruta_destino_xml
-        ruta_destino_xml = os.path.join(
-            ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.xml')
-        shutil.copy(ruta_xml, ruta_destino_xml)
-        print(f"Copiando {ruta_xml} a {ruta_destino_xml}")
+    # Intento de creación y copia-pega de archivos
+    try:
+        # Crear la ruta_app_fact si no existe
+        if not os.path.exists(ruta_app_fact_sin_ultimo_nivel):
+            os.makedirs(ruta_app_fact_sin_ultimo_nivel)
+            print(f"Creando directorio {ruta_app_fact_sin_ultimo_nivel}")
+        # Verificar si existen las rutas y copiar
+        if os.path.isfile(ruta_pdf):
+            # Copiar el archivo a la ruta_destino_pdf
+            ruta_destino_pdf = os.path.join(
+                ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.pdf')
+            shutil.copy(ruta_pdf, ruta_destino_pdf)
+            print(f"Copiando {ruta_pdf} a {ruta_destino_pdf}")
+        if os.path.isfile(ruta_xml):
+            # Copiar el archivo a la ruta_destino_xml
+            ruta_destino_xml = os.path.join(
+                ruta_app_fact_sin_ultimo_nivel, os.path.basename(ruta_produccion) + '.xml')
+            shutil.copy(ruta_xml, ruta_destino_xml)
+            print(f"Copiando {ruta_xml} a {ruta_destino_xml}")
+    # Manejo de errores
+    except Exception as e:
+        return HttpResponse(str(e))
